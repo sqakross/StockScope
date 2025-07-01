@@ -8,7 +8,7 @@ export default class BasePage {
   }
 
   find(selector) {
-    return cy.xpath(selector);
+    return cy.get(selector);
   }
 
   click(selector) {
@@ -22,4 +22,17 @@ export default class BasePage {
   assertContains(selector, text) {
     this.get(selector).should('contain', text);
   }
+
+  get(selector, option ={}) {
+    const {flacky = false, ...cyOpions} = option;
+
+    const timeout =
+    cyOptions.timeout != null
+      ? cyOptions.timeout
+      : flaky
+        ? 20_000
+        : Cypress.config('defaultCommandTimeout');
+
+    return cy.get(selector, { timeout, ...cyOptions });
+  }  
 }

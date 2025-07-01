@@ -1,5 +1,5 @@
-import FinancePage from '../support/pages/FinancePage';
-import { assert } from 'chai';
+import FinancePage from '../support/pages_objects/finance.page';
+
 
 context('Google Finance POM Advanced Tests', () => {
   const finance = new FinancePage();
@@ -11,15 +11,16 @@ context('Google Finance POM Advanced Tests', () => {
     });
   });
 
+  beforeEach(() => {
+    finance.goToFinance()
+  })
+  
   it('should have title containing Google Finance', () => {
-    finance.goToFinance();
     finance.getTitle().should('include', 'Google Finance');
   });
 
   it('should report only missing expected symbols', () => {
-  finance.goToFinance();
-
-  finance.getStocksOnPage().then(onPage => {
+    finance.getStocksOnPage().then(onPage => {
     const missing = expectedStocks.filter(sym => !onPage.includes(sym));
   
     cy.log(`Missing symbols: ${missing.join(', ')}`);
@@ -31,7 +32,6 @@ context('Google Finance POM Advanced Tests', () => {
 });
 
   it('should report only unexpected symbols', () => {
-    finance.goToFinance();
     finance.getStocksOnPage().then(onPage => {
     const extra = onPage.filter(sym => !expectedStocks.includes(sym));
 

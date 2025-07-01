@@ -1,4 +1,4 @@
-import BasePage from './BasePage';
+import BasePage from './base.page';
 
 export default class FinancePage extends BasePage {
   constructor() {
